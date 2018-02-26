@@ -1,0 +1,332 @@
+###############################################################################
+##  Variables
+###############################################################################
+
+# modifiers
+#set $mod Mod4
+#set $barMod Mod1
+set $mod Mod1
+set $barMod Mod4
+
+# directions
+set $left h
+set $right l
+set $down j
+set $up k
+
+# custom screen locker script
+set $locker bin/lock
+
+set $terminal sakura
+
+
+###############################################################################
+##  Basic setup
+###############################################################################
+
+# font for window titles. ISO 10646 = Unicode
+#font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+font pango:Fira Mono 12
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# no borders by default
+new_window none
+
+hide_edge_borders both
+force_focus_wrapping yes
+
+
+###############################################################################
+##  Custom settings for apps
+###############################################################################
+
+for_window [title="^pinentry"] floating enable, border normal
+
+
+###############################################################################
+##  Keybindings
+###############################################################################
+
+# control i3
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exit
+
+# modify window
+bindsym $mod+Shift+q kill
+bindsym $mod+f fullscreen
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+
+# monitor
+bindsym XF86Display exec --no-startup-id bin/monitor-toggle one
+bindsym Shift+XF86Display exec --no-startup-id bin/monitor-toggle two
+bindsym XF86MonBrightnessUp exec --no-startup-id bin/monitor-backlight inc
+bindsym XF86MonBrightnessDown exec --no-startup-id bin/monitor-backlight dec
+
+# apps
+set $dmenuOptions -nb "#000508" -nf "#839496" -sb "#002b36" -sf "#268bd2" -fn "Fira Mono-12:normal" -i -b
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu='dmenu $dmenuOptions'
+bindsym $mod+Shift+d exec dmenu_run $dmenuOptions
+#bindsym $mod+d exec --no-startup-id rofi -show run -opacity "85"
+bindsym $mod+Return exec $terminal
+bindsym $mod+Shift+Return exec thunar
+bindsym $mod+Shift+x exec $locker
+bindsym $mod+Shift+m exec --no-startup-id ~/bin/toggle-monitor.sh
+bindsym $mod+o exec $terminal -x uzi
+
+# scratchpad
+bindsym $mod+Shift+z move scratchpad
+bindsym $mod+z scratchpad show
+
+# change focus
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+# move focused window
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# split
+bindsym $mod+c split h
+bindsym $mod+v split v
+
+# change container layout (stacked, tabbed, default)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout default
+
+# Move the current workspace to the next output
+# (effectively toggles when you only have two outputs)
+bindsym $mod+x move workspace to output right
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# pass mode
+set $passMenu "pass: [p]assword [l]ogin [b]rowse"
+bindsym $mod+p mode $passMenu
+mode $passMenu {
+    bindsym p exec --no-startup-id ~/bin/passmenu --type -- $dmenuOptions; mode "default"
+    bindsym l exec --no-startup-id ~/bin/passmenu --type --get username:password --enter -- $dmenuOptions; mode "default"
+    bindsym b exec --no-startup-id ~/bin/passmenu --type --browse -- $dmenuOptions; mode "default"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+# chromium mode
+set $chromiumMenu "profile: [t]rusted [u]ntrusted [s]ocial [p]rivate"
+bindsym $mod+Tab mode $chromiumMenu
+mode $chromiumMenu {
+    bindsym t exec bin/chromium/trusted; mode "default"
+    bindsym u exec bin/chromium/untrusted; mode "default"
+    bindsym s exec bin/chromium/social; mode "default"
+    bindsym p exec bin/chromium/private; mode "default"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+# app mode
+#set $appMenu "app: [c]hromium [t]ransmission [s]potify"
+#bindsym $mod+Tab mode $appMenu
+#mode $appMenu {
+#    bindsym c mode $chromiumMenu
+#    bindsym t workspace 10; exec transmission-gtk; mode "default"
+#    bindsym s workspace 9; exec flatpak run com.spotify.Client; mode "default"
+#
+#    bindsym Return mode "default"
+#    bindsym Escape mode "default"
+#}
+
+# resize mode
+set $resizeMenu "resize:  arrow keys to shrink (+shift to grow)"
+bindsym $mod+r mode $resizeMenu
+mode $resizeMenu {
+    bindsym $left resize shrink left 10 px or 10 ppt
+    bindsym Shift+$left resize grow   left 10 px or 10 ppt
+
+    bindsym $down resize shrink down 10 px or 10 ppt
+    bindsym Shift+$down resize grow   down 10 px or 10 ppt
+
+    bindsym $up resize shrink up 10 px or 10 ppt
+    bindsym Shift+$up resize grow   up 10 px or 10 ppt
+
+    bindsym $right resize shrink right 10 px or 10 ppt
+    bindsym Shift+$right resize grow   right 10 px or 10 ppt
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+# system mode
+set $systemMenu "system:  [r]eload  [l]ogout  [p]oweroff  re[b]oot [h]ibernate"
+bindsym $mod+Delete mode $systemMenu
+mode $systemMenu {
+    bindsym r         restart
+    bindsym l         exit
+    bindsym p         exec shutdown -P now
+    bindsym b         exec shutdown -r now
+    bindsym h         exec systemctl hibernate
+    bindsym Return    mode "default"
+    bindsym Escape    mode "default"
+}
+
+# audio control
+set $audioMute exec --no-startup-id amixer set Master toggle
+set $audioRaiseVolume exec --no-startup-id amixer set Master 5%+ unmute
+set $audioLowerVolume exec --no-startup-id amixer set Master 5%- unmute
+set $audioNext exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
+set $audioPrev exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+
+# ... with media keys
+bindsym XF86AudioMute $audioMute
+bindsym XF86AudioLowerVolume $audioLowerVolume
+bindsym XF86AudioRaiseVolume $audioRaiseVolume
+bindsym XF86AudioNext $audioNext
+bindsym XF86AudioPrev $audioPrev
+bindsym XF86Eject exec --no-startup-id eject
+
+# ... with arrow keys (for keyboards without media keys)
+bindsym $mod+Down $audioLowerVolume
+bindsym $mod+Up $audioRaiseVolume
+bindsym $mod+Left $audioPrev
+bindsym $mod+Right $audioNext
+
+# adjustable borders
+bindsym $mod+b border toggle
+
+
+###############################################################################
+##  Gaps
+###############################################################################
+
+smart_gaps on
+gaps inner 10
+gaps outer 0
+workspace 1 gaps inner 0
+workspace 1 gaps outer 0
+
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+###############################################################################
+##  System bar and color theme
+###############################################################################
+
+bar {
+    font pango:Fira Mono 12
+    position bottom
+#    status_command i3blocks
+    status_command i3status
+    mode hide
+    modifier $barMod
+
+    colors {
+        background #000508
+        statusline #839496
+        separator #073642
+
+        # color class      border  backgr. text
+        focused_workspace  #002b36 #002b36 #E3FDFD
+        active_workspace   #002b36 #002b36 #2aa198
+        inactive_workspace #000508 #000508 #839496
+        urgent_workspace   #800517 #800517 #cb4b16
+    }
+}
+
+# decoration colors     border  backgr. text    indicator
+#client.focused          #002b36 #002b36 #E3FDFD #E3FDFD
+#client.focused_inactive #002b36 #002b36 #2aa198 #2aa198
+#client.unfocused        #000508 #000508 #839496 #839496
+
+#client.focused          #181818 #181818 #86c1b9 #E3FDFD
+#client.focused_inactive #181818 #181818 #86c1b9 #2aa198
+#client.unfocused        #181818 #181818 #545454 #839496
+
+client.focused          #002b36 #002b36 #2aa198 #E3FDFD
+client.focused_inactive #002b36 #002b36 #2aa198 #2aa198
+client.unfocused        #1d2021 #1d2021 #545454 #839496
+
+
+###############################################################################
+##  Startup apps
+###############################################################################
+
+exec --no-startup-id xautolock -time 60 -locker "$locker" # lock screen when idle
+#exec --no-startup-id compton -CGb                         # tear-free rendering + effects
+#exec --no-startup-id blueman-applet                       # bluetooth manager icon
+exec --no-startup-id redshift -l 60.3:5.3 -m vidmode      # auto color temperature
+
+#exec $locker # instant lock, for autologin (only password needed)
+#exec_always --no-startup-id compton -b --backend glx --vsync opengl -cGCz -r 5 -l -8 -t -8 -o 0.5 --shadow-exclude 'name ?= "synapse"' #-i 0.9 #--inactive-dim 0.2
+#exec --no-startup-id ~/bin/battery-guard                  # Monitor battery levels
+#exec --no-startup-id ssh-agent                            # ssh-agent for remembering key passphrases
+#exec --no-startup-id dropbox                              # dropbox
+#exec --no-startup-id bin/monitor-toggle hotplug           # change display when connected
+#exec --no-startup-id solaar                               # Logitech status icon
+#exec --no-startup-id thunar --daemon                      # faster thunar
