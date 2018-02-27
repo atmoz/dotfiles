@@ -1,0 +1,16 @@
+[color]
+	ui = true
+[user]
+	email = github.com@konto.atmoz.no
+	name = Adrian Dvergsdal
+	signingkey = B9FB68F98F88BA47
+[push]
+	default = simple
+[pull]
+	rebase = true
+[http "https://gopkg.in"]
+	followRedirects = true
+[log]
+	showSignature = true
+[commit]
+	gpgsign = true
