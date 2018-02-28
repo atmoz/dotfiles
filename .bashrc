@@ -113,3 +113,4 @@ function dup() {
 alias wine32="WINEPREFIX='/home/atmoz/.wine32'"
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+dotfiles status --short # show if any changes are uncommited
