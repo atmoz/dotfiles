@@ -5,14 +5,14 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+source ~/.bash_colors
+
 alias ls='ls --color=auto'
-#PS1='[\u@\h \W]\$ '
-PS1='[\h \W]\$ '
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 #####################################################################
-# start GPG
+## GPG
 #####################################################################
 
 # Set GPG TTY
@@ -31,8 +31,6 @@ fi
 # Refresh gpg-agent tty in case user switches into an X session
 gpg-connect-agent updatestartuptty /bye >/dev/null
 
-#####################################################################
-# end GPG
 #####################################################################
 
 export EDITOR="vim"
@@ -54,46 +52,29 @@ export ATMOZ_GPG_ID=0xB9FB68F98F88BA47
 #export CLASSPATH=.:./target/classes:$JUNIT_HOME/junit.jar:$JUNIT_HOME/hamcrest-core.jar:/home/atmoz/workspace/study/INF102/algs4.jar
 
 #####################################################################
-# start prompt command
+## Prompt command
 #####################################################################
 
-function __color() {
-    echo "\[\e[${1}m\]${@:2}\[\e[m\]"
-}
-
-#GIT_PS1_SHOWUPSTREAM="auto"
-#GIT_PS1_SHOWUNTRACKEDFILES=true
-GIT_PS1_SHOWCOLORHINTS=true
+export GIT_PS1_SHOWCOLORHINTS=true
+export GIT_PS1_SHOWDIRTYSTATE=true
+export GIT_PS1_SHOWUNTRACKEDFILES=true
+export GIT_PS1_SHOWUPSTREAM="auto"
+export GIT_PS1_SHOWSTASHSTATE=true
 source /usr/share/git/completion/git-prompt.sh
 
-function __ps1_newline_login {
-  if [[ -z "${PS1_NEWLINE_LOGIN}" ]]; then
-    PS1_NEWLINE_LOGIN=true
-
-    gitPsInfo='$(__git_ps1  "[%s] ")'
-    PS1="${PS1/\$/$gitPsInfo\$}"
-  else
-    #printf '\n'
-    #line=$(printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' '  '-')
-    line="\n"
-    dateString="" # " $(date +"%F %T")"
-    printf '\e[0;37m'
-    printf -- "${line:${#dateString}}${dateString}"
-    printf '\e[0m'
-  fi
+function __ps1_date {
+    dateString="$(date +"[%T]") "
+    clr_white -n "$dateString"
 }
 
 function __terminalTitle() {
-    title="${PWD/#\/home\/atmoz/\~}"
-    echo -ne "\033]0;$title\007"
+    echo -ne "\033]0;$PWD\007"
 }
 
-#ps1pc_start="$(__color $dblue '\w')"
-#ps1pc_end='$(if [ ! \j == 0 ]; then echo " \[\e[1;31m\](\j)\[\e[m\]"; fi) \$ '
-#PROMPT_COMMAND='__ps1_newline_login && __git_ps1 "$ps1pc_start" "$ps1pc_end" ":%s" && __terminalTitle'
+ps1pc_start="\n$(clr_bold clr_blue -n '\w')"
+ps1pc_end='$(if [ ! \j == 0 ]; then clr_bold clr_brown -n " bg(\j)"; fi) \n$(clr_bold \$) '
+PROMPT_COMMAND='__git_ps1 "$ps1pc_start" "$ps1pc_end" " %s" && __terminalTitle'
 
-#####################################################################
-# end prompt command
 #####################################################################
 
 function cal() {
