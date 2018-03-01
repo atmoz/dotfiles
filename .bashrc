@@ -71,9 +71,9 @@ function __terminalTitle() {
     echo -ne "\033]0;$PWD\007"
 }
 
-ps1pc_start="\n$(clr_bold clr_blue -n '\w')"
-ps1pc_end='$(if [ ! \j == 0 ]; then clr_bold clr_brown -n " bg(\j)"; fi) \n$(clr_bold \$) '
-PROMPT_COMMAND='__git_ps1 "$ps1pc_start" "$ps1pc_end" " %s" && __terminalTitle'
+ps1pc_start="\n"
+ps1pc_end='$(clr_bold clr_blue -n "\w")$(if [ ! \j == 0 ]; then clr_bold clr_brown -n " (\j)"; fi) $(clr_bold "\$") '
+PROMPT_COMMAND='__git_ps1 "$ps1pc_start" "$ps1pc_end" "%s\n" && __terminalTitle'
 
 #####################################################################
 
