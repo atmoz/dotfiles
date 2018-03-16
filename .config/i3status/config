@@ -24,8 +24,9 @@ ethernet hydrogen {
 }
 
 wireless wlp3s0 {
-    format_up = "%essid %quality (%bitrate / %frequency) %ip "
-    format_down = "wifi"
+#    format_up = " %essid %quality (%bitrate / %frequency) %ip "
+    format_up = " %essid%quality %ip "
+    format_down = " wifi "
 }
 
 cpu_temperature 0 {
