@@ -24,4 +24,8 @@ setxkbmap no
 
 bin/monitor-toggle auto
 
-exec i3
+if [ "$(tty)" == "/dev/tty2" ]; then
+    exec remote-viewer -f spice://localhost:5900
+else
+    exec i3
+fi
