@@ -342,6 +342,10 @@ command! -range=% FixWhitespace call <SID>FixWhitespace(<line1>,<line2>)
 " Use markdown syntax on *.md files
 au BufRead,BufNewFile *.md set filetype=markdown
 
+" Spell checking
+autocmd FileType markdown setlocal spell spelllang=en_us
+hi SpellBad cterm=underline ctermfg=red
+
 " ============================================================================
 " Golang settings
 " ============================================================================
