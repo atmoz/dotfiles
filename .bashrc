@@ -5,15 +5,33 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-source ~/.bash_colors
+#####################################################################
 
 alias ls='ls --color=auto'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+export EDITOR="vim"
+
+export LC_ALL=en_US.UTF-8
+export LANG="$LC_ALL"
+
+export PATH=$PATH:~/bin
+
+#export GOPATH=~/workspace/go
+#export PATH=$PATH:$GOPATH/bin
+
+export HISTCONTROL=ignoreboth:erasedups
+
+# junit
+#JUNIT_HOME=/usr/share/java
+#export CLASSPATH=.:./target/classes:$JUNIT_HOME/junit.jar:$JUNIT_HOME/hamcrest-core.jar:/home/atmoz/workspace/study/INF102/algs4.jar
+
 #####################################################################
 ## GPG
 #####################################################################
+
+export ATMOZ_GPG_ID=0xB9FB68F98F88BA47
 
 # Set GPG TTY
 export GPG_TTY=$(tty)
@@ -32,26 +50,6 @@ fi
 gpg-connect-agent updatestartuptty /bye >/dev/null
 
 #####################################################################
-
-export EDITOR="vim"
-
-export LC_ALL=en_US.UTF-8
-export LANG="$LC_ALL"
-
-export PATH=$PATH:~/bin
-
-#export GOPATH=~/workspace/go
-#export PATH=$PATH:$GOPATH/bin
-
-export HISTCONTROL=ignoreboth:erasedups
-
-export ATMOZ_GPG_ID=0xB9FB68F98F88BA47
-
-# junit
-#JUNIT_HOME=/usr/share/java
-#export CLASSPATH=.:./target/classes:$JUNIT_HOME/junit.jar:$JUNIT_HOME/hamcrest-core.jar:/home/atmoz/workspace/study/INF102/algs4.jar
-
-#####################################################################
 ## Prompt command
 #####################################################################
 
@@ -62,19 +60,20 @@ export GIT_PS1_SHOWUPSTREAM="auto"
 export GIT_PS1_SHOWSTASHSTATE=true
 source /usr/share/git/completion/git-prompt.sh
 
-function __ps1_date {
-    dateString="$(date +"[%T]") "
-    clr_white -n "$dateString"
-}
-
 function __terminalTitle() {
     echo -ne "\033]0;$PWD\007"
 }
 
+BLUE='\[\033[1;34m\]'
+WHITE='\[\033[1;37m\]'
+RESET='\[\033[0m\]'
+
 ps1pc_start="\n"
-ps1pc_end='$(clr_bold clr_blue -n "\w")$(if [ ! \j == 0 ]; then clr_bold clr_brown -n " (\j)"; fi) $(clr_bold "\$") '
+ps1pc_end="$BLUE\w$WHITE"'$(if [ ! \j == 0 ]; then echo " (\j)"; fi) \$'"$RESET "
 PROMPT_COMMAND='__git_ps1 "$ps1pc_start" "$ps1pc_end" "%s\n" && __terminalTitle'
 
+#####################################################################
+## Helper functions
 #####################################################################
 
 function cal() {
@@ -90,8 +89,16 @@ function dup() {
     ($newTerm &) 2> /dev/null
 }
 
-# Wine magic
-alias wine32="WINEPREFIX='/home/atmoz/.wine32'"
+#####################################################################
+## Version controlled configurations
+#####################################################################
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-dotfiles status --short # show if any changes are uncommited
+
+# Remind me of uncommitted changes
+if [ "$PWD" == "$HOME" ]; then
+    dotfiles status --short -uno
+    git -C ~/bin status --short -uno
+    git -C /srv/salt status --short -uno
+fi
+
