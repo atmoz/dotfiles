@@ -52,7 +52,6 @@ for_window [title="^pinentry"] floating enable, border normal
 # control i3
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+e exit
 
 # modify window
 bindsym $mod+Shift+q kill
@@ -191,7 +190,7 @@ mode $resizeMenu {
 
 # system mode
 set $systemMenu "system:  [r]eload  [l]ogout  [p]oweroff  re[b]oot [h]ibernate"
-bindsym $mod+Delete mode $systemMenu
+bindsym $mod+Ctrl+Delete mode $systemMenu
 mode $systemMenu {
     bindsym r         restart
     bindsym l         exit
