@@ -99,6 +99,6 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 if [ "$PWD" == "$HOME" ]; then
     dotfiles status --short -uno
     git -C ~/bin status --short -uno
-    git -C /srv/salt status --short -uno
+    git -C /srv/formulas/workstation-formula status --short -uno
 fi
 
