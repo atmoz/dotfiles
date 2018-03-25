@@ -11,6 +11,7 @@ alias ls='ls --color=auto'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+export TERMINAL="sakura"
 export EDITOR="vim"
 
 export LC_ALL=en_US.UTF-8
