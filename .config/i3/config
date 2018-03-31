@@ -202,11 +202,11 @@ mode $systemMenu {
 }
 
 # audio control
-set $audioMute exec --no-startup-id amixer set Master toggle
-set $audioRaiseVolume exec --no-startup-id amixer set Master 5%+ unmute
-set $audioLowerVolume exec --no-startup-id amixer set Master 5%- unmute
-set $audioNext exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
-set $audioPrev exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+set $audioMute exec --no-startup-id bin/audio toggle
+set $audioRaiseVolume exec --no-startup-id bin/audio raise
+set $audioLowerVolume exec --no-startup-id bin/audio lower
+set $audioNext exec --no-startup-id bin/audio next
+set $audioPrev exec --no-startup-id bin/audio prev
 
 # ... with media keys
 bindsym XF86AudioMute $audioMute
