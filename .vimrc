@@ -287,7 +287,10 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'roman/golden-ratio'
 "Plug 'elmcast/elm-vim'
 
+Plug 'Valloric/YouCompleteMe'
 Plug 'saltstack/salt-vim'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'mdempsky/gocode', { 'rtp': 'vim', 'do': '~/.config/nvim/plugins/gocode/vim/symlink.sh' }
 
 call plug#end()
 
