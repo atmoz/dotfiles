@@ -225,6 +225,10 @@ bindsym $mod+Right $audioNext
 # adjustable borders
 bindsym $mod+b border toggle
 
+# timeboxing with pomodoro
+bindsym $mod+t exec --no-startup-id pomodoro
+
+
 
 ###############################################################################
 ##  Gaps
@@ -319,7 +323,7 @@ client.unfocused        #1d2021 #1d2021 #545454 #839496
 exec --no-startup-id xautolock -time 60 -locker "$locker" # lock screen when idle
 #exec --no-startup-id compton -CGb                         # tear-free rendering + effects
 #exec --no-startup-id blueman-applet                       # bluetooth manager icon
-exec --no-startup-id redshift -l 60.3:5.3 -m vidmode -t 4400:2600 # auto color temperature
+exec --no-startup-id redshift -l 60.3:5.3 -m vidmode -t 4400:2200 -b 1:0.5 # auto color temperature
 
 #exec $locker # instant lock, for autologin (only password needed)
 #exec_always --no-startup-id compton -b --backend glx --vsync opengl -cGCz -r 5 -l -8 -t -8 -o 0.5 --shadow-exclude 'name ?= "synapse"' #-i 0.9 #--inactive-dim 0.2
