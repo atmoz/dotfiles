@@ -19,8 +19,8 @@ export LANG="$LC_ALL"
 
 export PATH=$PATH:~/bin
 
-#export GOPATH=~/workspace/go
-#export PATH=$PATH:$GOPATH/bin
+export GOPATH=~/go
+export PATH=$PATH:$GOPATH/bin
 
 export HISTCONTROL=ignoreboth:erasedups
 
