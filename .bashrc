@@ -8,6 +8,7 @@
 #####################################################################
 
 alias ls='ls --color=auto'
+alias r=ranger
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
