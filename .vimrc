@@ -54,7 +54,9 @@ let mapleader="\<Space>"
 map <leader>r :!ranger<CR>
 map <leader>n :NERDTreeToggle<CR>
 map <leader>t :TlistToggle<CR>
-map <leader>w :w<CR>
+map <leader>w :w<CR>:SyntasticCheck<CR>
+map <leader>f :FZF<CR>
+map <leader>s :SyntasticCheck<CR>
 nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
@@ -149,9 +151,13 @@ let g:ctrlp_prompt_mappings = {
 " syntastic
 " ============================================================================
 
+set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_asm_compiler = "nasm"
 let g:syntastic_asm_compiler_options = "-f elf -F dwarf"
@@ -259,13 +265,13 @@ endif
 call g:plug#begin('~/.config/nvim/plugins')
 
 " Color schemes
-Plug 'chriskempson/base16-vim'
+"Plug 'chriskempson/base16-vim'
 Plug 'morhetz/gruvbox'
 
-Plug 'nathanaelkane/vim-indent-guides' " A Vim plugin for visually displaying indent levels in code
+""Plug 'nathanaelkane/vim-indent-guides' " A Vim plugin for visually displaying indent levels in code
 Plug 'junegunn/vim-easy-align' " A Vim alignment plugin
 Plug 'edsono/vim-matchit' " Configure % to match more than just single characters.
-Plug 'itchyny/lightline.vim'
+"Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
 
 "Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } " A tree explorer plugin for vim.
@@ -273,13 +279,13 @@ Plug 'airblade/vim-gitgutter'
 "Plug 'Mizuchi/vim-ranger'
 Plug 'vim-scripts/Ranger.vim'
 
-Plug 'ctrlpvim/ctrlp.vim' " Fuzzy file, buffer, mru, tag, etc finder
+"Plug 'ctrlpvim/ctrlp.vim' " Fuzzy file, buffer, mru, tag, etc finder
 Plug 'mileszs/ack.vim' " Vim plugin for the Perl module / CLI script 'ack'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " A command-line fuzzy finder written in Go
-Plug 'vim-ctrlspace/vim-ctrlspace' " Vim Space Controller
+Plug 'junegunn/fzf', { 'on': 'FZF', 'dir': '~/.fzf', 'do': './install --all' } " A command-line fuzzy finder written in Go
+"Plug 'vim-ctrlspace/vim-ctrlspace' " Vim Space Controller
 
-Plug 'joonty/vdebug' " Multi-language DBGP debugger client for Vim
-Plug 'scrooloose/syntastic' " Syntax checking hacks for vim
+"Plug 'joonty/vdebug' " Multi-language DBGP debugger client for Vim
+Plug 'scrooloose/syntastic', { 'on': 'SyntasticCheck' } " Syntax checking hacks for vim
 Plug 'Shougo/vimproc.vim', { 'do': 'make' } " Interactive command execution in Vim
 Plug 'idanarye/vim-vebugger' " Interactive shell debugger
 
