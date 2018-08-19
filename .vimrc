@@ -271,34 +271,41 @@ Plug 'morhetz/gruvbox'
 ""Plug 'nathanaelkane/vim-indent-guides' " A Vim plugin for visually displaying indent levels in code
 Plug 'junegunn/vim-easy-align' " A Vim alignment plugin
 Plug 'edsono/vim-matchit' " Configure % to match more than just single characters.
-"Plug 'itchyny/lightline.vim'
+Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
-
-"Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } " A tree explorer plugin for vim.
-"Plug 'Xuyuanp/nerdtree-git-plugin' " A plugin of NERDTree showing git status
-"Plug 'Mizuchi/vim-ranger'
+"
+""Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } " A tree explorer plugin for vim.
+""Plug 'Xuyuanp/nerdtree-git-plugin' " A plugin of NERDTree showing git status
+""Plug 'Mizuchi/vim-ranger'
 Plug 'vim-scripts/Ranger.vim'
-
-"Plug 'ctrlpvim/ctrlp.vim' " Fuzzy file, buffer, mru, tag, etc finder
-Plug 'mileszs/ack.vim' " Vim plugin for the Perl module / CLI script 'ack'
-Plug 'junegunn/fzf', { 'on': 'FZF', 'dir': '~/.fzf', 'do': './install --all' } " A command-line fuzzy finder written in Go
-"Plug 'vim-ctrlspace/vim-ctrlspace' " Vim Space Controller
-
-"Plug 'joonty/vdebug' " Multi-language DBGP debugger client for Vim
+"
+""Plug 'ctrlpvim/ctrlp.vim' " Fuzzy file, buffer, mru, tag, etc finder
+"Plug 'mileszs/ack.vim' " Vim plugin for the Perl module / CLI script 'ack'
+"Plug 'junegunn/fzf', { 'on': 'FZF', 'dir': '~/.fzf', 'do': './install --all' } " A command-line fuzzy finder written in Go
+""Plug 'vim-ctrlspace/vim-ctrlspace' " Vim Space Controller
+"
+""Plug 'joonty/vdebug' " Multi-language DBGP debugger client for Vim
 Plug 'scrooloose/syntastic', { 'on': 'SyntasticCheck' } " Syntax checking hacks for vim
 Plug 'Shougo/vimproc.vim', { 'do': 'make' } " Interactive command execution in Vim
 Plug 'idanarye/vim-vebugger' " Interactive shell debugger
-
-Plug 'terryma/vim-multiple-cursors'
+"
+"Plug 'terryma/vim-multiple-cursors'
 Plug 'roman/golden-ratio'
-"Plug 'elmcast/elm-vim'
-
-Plug 'Valloric/YouCompleteMe'
+""Plug 'elmcast/elm-vim'
+"
+Plug 'Valloric/YouCompleteMe', { 'on': [] }
 Plug 'saltstack/salt-vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'mdempsky/gocode', { 'rtp': 'vim', 'do': '~/.config/nvim/plugins/gocode/vim/symlink.sh' }
 
 call plug#end()
+
+" https://github.com/junegunn/vim-plug/wiki/tips#loading-plugins-manually
+augroup load_ycm
+  autocmd!
+  autocmd InsertEnter * call plug#load('YouCompleteMe')
+                     \| autocmd! load_ycm
+augroup END
 
 " ============================================================================
 " looks
