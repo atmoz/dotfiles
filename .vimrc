@@ -6,6 +6,9 @@ set sessionoptions=curdir,folds,tabpages,winsize
 " behavior
 " ============================================================================
 
+" https://sw.kovidgoyal.net/kitty/faq.html#using-a-color-theme-with-a-background-color-does-not-work-well-in-vim
+let &t_ut=''
+
 " https://askubuntu.com/questions/60200/how-to-copy-data-between-different-instances-of-vim
 set clipboard=unnamedplus
 

@@ -9,6 +9,8 @@
 
 alias ls='ls --color=auto'
 alias r=ranger
+alias kicat="kitty +kitten icat"
+alias kdiff="kitty +kitten diff"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
@@ -104,3 +106,4 @@ if [ "$PWD" == "$HOME" ]; then
     git -C /srv/formulas/workstation-formula status --short -uno
 fi
 
+source <(kitty + complete setup bash)

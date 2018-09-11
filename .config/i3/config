@@ -17,7 +17,7 @@ set $up k
 # custom screen locker script
 set $locker bin/lock
 
-set $terminal sakura
+set $terminal kitty
 
 
 ###############################################################################
