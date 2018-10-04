@@ -7,6 +7,7 @@
 
 #####################################################################
 
+alias vim=nvim
 alias ls='ls --color=auto'
 alias r=ranger
 alias kicat="kitty +kitten icat"
@@ -14,8 +15,8 @@ alias kdiff="kitty +kitten diff"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-export TERMINAL="sakura"
-export EDITOR="vim"
+export TERMINAL="kitty"
+export EDITOR="nvim"
 
 export LC_ALL=en_US.UTF-8
 export LANG="$LC_ALL"
@@ -84,13 +85,12 @@ function cal() {
     if [ $# == 0 ]; then
         /usr/bin/cal -my --week
     else
-        /usr/bin/cal $@
+        /usr/bin/cal "$@"
     fi
 }
 
 function dup() {
-    newTerm="sakura"
-    ($newTerm &) 2> /dev/null
+    ($TERMINAL &) 2> /dev/null
 }
 
 #####################################################################

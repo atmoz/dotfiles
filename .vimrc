@@ -265,7 +265,7 @@ endif
 " plugins
 " ============================================================================
 
-call g:plug#begin('~/.config/nvim/plugins')
+call g:plug#begin('~/.local/share/nvim/plugged')
 
 " Color schemes
 "Plug 'chriskempson/base16-vim'
@@ -284,7 +284,7 @@ Plug 'vim-scripts/Ranger.vim'
 "
 ""Plug 'ctrlpvim/ctrlp.vim' " Fuzzy file, buffer, mru, tag, etc finder
 "Plug 'mileszs/ack.vim' " Vim plugin for the Perl module / CLI script 'ack'
-"Plug 'junegunn/fzf', { 'on': 'FZF', 'dir': '~/.fzf', 'do': './install --all' } " A command-line fuzzy finder written in Go
+Plug 'junegunn/fzf', { 'on': 'FZF', 'dir': '~/.fzf', 'do': './install --all' } " A command-line fuzzy finder written in Go
 ""Plug 'vim-ctrlspace/vim-ctrlspace' " Vim Space Controller
 "
 ""Plug 'joonty/vdebug' " Multi-language DBGP debugger client for Vim
@@ -301,6 +301,8 @@ Plug 'saltstack/salt-vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'mdempsky/gocode', { 'rtp': 'vim', 'do': '~/.config/nvim/plugins/gocode/vim/symlink.sh' }
 
+Plug 'junegunn/goyo.vim'
+
 call plug#end()
 
 " https://github.com/junegunn/vim-plug/wiki/tips#loading-plugins-manually
@@ -314,7 +316,10 @@ augroup END
 " looks
 " ============================================================================
 
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+set termguicolors
+
+"let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+"set background=light
 set background=dark
 
 "let g:solarized_visibility="low"
@@ -327,7 +332,7 @@ set background=dark
 "colorscheme base16-default
 
 let g:gruvbox_contrast_dark="hard"
-"let g:gruvbox_contrast_light="soft"
+let g:gruvbox_contrast_light="soft"
 let g:gruvbox_sign_column="bg0"
 let g:gruvbox_invert_tabline=0
 "let g:gruvbox_vert_split="bg0"

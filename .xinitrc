@@ -8,7 +8,9 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
 fi
 
 xrdb -merge .Xresources
-xsetroot -solid black &
+xsetroot -solid black
+xset s 600 20 # time to lock screen (first is notify)
+xss-lock -n bin/lock-notify bin/lock &
 
 # keyboard layout
 setxkbmap no
