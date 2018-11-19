@@ -9,8 +9,8 @@ fi
 
 xrdb -merge .Xresources
 xsetroot -solid black
-xset s 600 20 # time to lock screen (first is notify)
 xss-lock -n bin/lock-notify bin/lock &
+xset s 600 20 # time to lock screen (first is notify)
 
 # keyboard layout
 setxkbmap no
