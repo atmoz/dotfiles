@@ -296,13 +296,13 @@ Plug 'idanarye/vim-vebugger' " Interactive shell debugger
 Plug 'roman/golden-ratio'
 ""Plug 'elmcast/elm-vim'
 "
-Plug 'Valloric/YouCompleteMe', { 'on': [] }
 Plug 'saltstack/salt-vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'mdempsky/gocode', { 'rtp': 'vim', 'do': '~/.config/nvim/plugins/gocode/vim/symlink.sh' }
 
 Plug 'junegunn/goyo.vim'
 
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' } ", { 'on': [] }
 call plug#end()
 
 " https://github.com/junegunn/vim-plug/wiki/tips#loading-plugins-manually
