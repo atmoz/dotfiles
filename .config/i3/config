@@ -104,7 +104,7 @@ bindsym $mod+e layout default
 
 # Move the current workspace to the next output
 # (effectively toggles when you only have two outputs)
-bindsym $mod+x move workspace to output right
+bindsym $mod+x move workspace to output down
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -325,7 +325,7 @@ client.unfocused        #1d2021 #1d2021 #545454 #839496
 exec --no-startup-id bin/redshift # auto color temperature
 
 #exec $locker # instant lock, for autologin (only password needed)
-exec --no-startup-id bin/compton
+#exec --no-startup-id bin/compton
 #exec --no-startup-id ~/bin/battery-guard                  # Monitor battery levels
 #exec --no-startup-id ssh-agent                            # ssh-agent for remembering key passphrases
 #exec --no-startup-id dropbox                              # dropbox
