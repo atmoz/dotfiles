@@ -286,11 +286,12 @@ bar {
     position bottom
 #    status_command i3blocks
     status_command i3status
-    mode hide
+#    mode hide
     modifier $barMod
 
     colors {
-        background #000508
+#        background #000508
+        background #1D2027
         statusline #839496
         separator #073642
 
@@ -302,7 +303,7 @@ bar {
     }
 }
 
-# decoration colors     border  backgr. text    indicator
+# decoration colors     border  backgr. text    indicator child_border
 #client.focused          #002b36 #002b36 #E3FDFD #E3FDFD
 #client.focused_inactive #002b36 #002b36 #2aa198 #2aa198
 #client.unfocused        #000508 #000508 #839496 #839496
@@ -311,9 +312,9 @@ bar {
 #client.focused_inactive #181818 #181818 #86c1b9 #2aa198
 #client.unfocused        #181818 #181818 #545454 #839496
 
-client.focused          #002b36 #002b36 #2aa198 #E3FDFD
-client.focused_inactive #002b36 #002b36 #2aa198 #2aa198
-client.unfocused        #1d2021 #1d2021 #545454 #839496
+client.focused          #002b36 #002b36 #2aa198 #E3FDFD #002b36
+client.focused_inactive #002b36 #002b36 #2aa198 #2aa198 #002b36
+client.unfocused        #1d2021 #1d2021 #545454 #839496 #1d2021
 
 
 ###############################################################################
