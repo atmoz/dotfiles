@@ -13,7 +13,7 @@ xss-lock -n bin/lock-notify bin/lock &
 xset s 600 20 # time to lock screen (first is notify)
 
 # keyboard layout
-setxkbmap no
+setxkbmap capsmod # custom us layout
 
 # Trackpoint scrolling for evdev
 #xprop() { xinput set-prop "TPPS/2 IBM TrackPoint" "$@"; }
