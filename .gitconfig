@@ -8,6 +8,8 @@
 	default = simple
 [pull]
 	rebase = true
+[diff]
+    algorithm = minimal
 [http "https://gopkg.in"]
 	followRedirects = true
 [log]

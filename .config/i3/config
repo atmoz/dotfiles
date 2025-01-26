@@ -7,6 +7,7 @@
 #set $barMod Mod1
 set $mod Mod1
 set $barMod Mod4
+set $switch Mode_switch
 
 # directions
 set $left h
@@ -19,6 +20,8 @@ set $locker bin/lock
 
 set $terminal kitty
 
+set $worklevel 1
+
 
 ###############################################################################
 ##  Basic setup
@@ -26,16 +29,19 @@ set $terminal kitty
 
 # font for window titles. ISO 10646 = Unicode
 #font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-font pango:Fira Mono 12
+font pango:IBM Plex Mono  12
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # no borders by default
-new_window none
+#new_window none
 
 hide_edge_borders both
-force_focus_wrapping yes
+focus_wrapping force
+focus_follows_mouse no
+
+for_window [class="^fzfmenu"] floating enable, border pixel 5, sticky enable, resize set 700 400
 
 
 ###############################################################################
@@ -67,12 +73,14 @@ bindsym XF86MonBrightnessUp exec --no-startup-id bin/monitor-backlight inc
 bindsym XF86MonBrightnessDown exec --no-startup-id bin/monitor-backlight dec
 
 # apps
-set $dmenuOptions -nb "#000508" -nf "#839496" -sb "#002b36" -sf "#268bd2" -fn "Fira Mono-12:normal" -i -b
+set $dmenuOptions -nb "#000508" -nf "#839496" -sb "#002b36" -sf "#268bd2" -fn "IBM Plex Mono-14" -i #-b
+#bindsym $mod+d exec --no-startup-id fzfmenu desktop
+#bindsym $mod+Shift+d exec --no-startup-id fzfmenu path
 bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu='dmenu $dmenuOptions'
 bindsym $mod+Shift+d exec dmenu_run $dmenuOptions
 #bindsym $mod+d exec --no-startup-id rofi -show run -opacity "85"
-bindsym $mod+Return exec $terminal
-bindsym $mod+Shift+Return exec thunar
+bindsym $mod+Return exec $terminal cap run base
+bindsym $mod+Shift+Return exec $terminal
 bindsym $mod+Shift+x exec $locker
 bindsym $mod+Shift+m exec --no-startup-id ~/bin/toggle-monitor.sh
 bindsym $mod+o exec $terminal -x uzi
@@ -104,31 +112,63 @@ bindsym $mod+e layout default
 
 # Move the current workspace to the next output
 # (effectively toggles when you only have two outputs)
-bindsym $mod+x move workspace to output down
+bindsym $mod+x move workspace to output left
 
 # switch to workspace
-bindsym $mod+1 workspace 1
-bindsym $mod+2 workspace 2
-bindsym $mod+3 workspace 3
-bindsym $mod+4 workspace 4
-bindsym $mod+5 workspace 5
-bindsym $mod+6 workspace 6
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10
+bindsym $mod+1 workspace "$worklevel1"
+bindsym $mod+2 workspace "$worklevel2"
+bindsym $mod+3 workspace "$worklevel3"
+bindsym $mod+4 workspace "$worklevel4"
+bindsym $mod+5 workspace "$worklevel5"
+bindsym $mod+6 workspace "$worklevel6"
+bindsym $mod+7 workspace "$worklevel7"
+bindsym $mod+8 workspace "$worklevel8"
+bindsym $mod+9 workspace "$worklevel9"
+bindsym $mod+0 workspace "$worklevel0"
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
-bindsym $mod+Shift+3 move container to workspace 3
-bindsym $mod+Shift+4 move container to workspace 4
-bindsym $mod+Shift+5 move container to workspace 5
-bindsym $mod+Shift+6 move container to workspace 6
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+1 move container to workspace "$worklevel1"
+bindsym $mod+Shift+2 move container to workspace "$worklevel2"
+bindsym $mod+Shift+3 move container to workspace "$worklevel3"
+bindsym $mod+Shift+4 move container to workspace "$worklevel4"
+bindsym $mod+Shift+5 move container to workspace "$worklevel5"
+bindsym $mod+Shift+6 move container to workspace "$worklevel6"
+bindsym $mod+Shift+7 move container to workspace "$worklevel7"
+bindsym $mod+Shift+8 move container to workspace "$worklevel8"
+bindsym $mod+Shift+9 move container to workspace "$worklevel9"
+bindsym $mod+Shift+0 move container to workspace "$worklevel0"
+
+
+    bindsym $mod+F1 exec --no-startup-id bin/i3worklevel 1
+    bindsym $mod+F2 exec --no-startup-id bin/i3worklevel 2
+    bindsym $mod+F3 exec --no-startup-id bin/i3worklevel 3
+    bindsym $mod+F4 exec --no-startup-id bin/i3worklevel 4
+    bindsym $mod+F5 exec --no-startup-id bin/i3worklevel 5
+    bindsym $mod+F6 exec --no-startup-id bin/i3worklevel 6
+    bindsym $mod+F7 exec --no-startup-id bin/i3worklevel 7
+    bindsym $mod+F8 exec --no-startup-id bin/i3worklevel 8
+    bindsym $mod+F9 exec --no-startup-id bin/i3worklevel 9
+    bindsym $mod+F10 exec --no-startup-id bin/i3worklevel A
+    bindsym $mod+F11 exec --no-startup-id bin/i3worklevel B
+    bindsym $mod+F12 exec --no-startup-id bin/i3worklevel C
+
+# worklevel mode
+set $worklevelMenu "select worklevel (number)"
+bindsym $mod+Escape mode $worklevelMenu
+mode $worklevelMenu {
+    bindsym 1 exec --no-startup-id bin/i3worklevel 1 ; mode "default"
+    bindsym 2 exec --no-startup-id bin/i3worklevel 2 ; mode "default"
+    bindsym 3 exec --no-startup-id bin/i3worklevel 3 ; mode "default"
+    bindsym 4 exec --no-startup-id bin/i3worklevel 4 ; mode "default"
+    bindsym 5 exec --no-startup-id bin/i3worklevel 5 ; mode "default"
+    bindsym 6 exec --no-startup-id bin/i3worklevel 6 ; mode "default"
+    bindsym 7 exec --no-startup-id bin/i3worklevel 7 ; mode "default"
+    bindsym 8 exec --no-startup-id bin/i3worklevel 8 ; mode "default"
+    bindsym 9 exec --no-startup-id bin/i3worklevel 9 ; mode "default"
+    bindsym 0 exec --no-startup-id bin/i3worklevel 10 ; mode "default"
+    bindsym Return    mode "defaul"
+    bindsym Escape    mode "default"
+}
 
 # pass mode
 set $passMenu "pass: [p]assword [l]ogin [b]rowse"
@@ -207,13 +247,20 @@ set $audioRaiseVolume exec --no-startup-id bin/audio raise
 set $audioLowerVolume exec --no-startup-id bin/audio lower
 set $audioNext exec --no-startup-id bin/audio next
 set $audioPrev exec --no-startup-id bin/audio prev
+set $audioPlay exec --no-startup-id bin/audio play
 
 # ... with media keys
 bindsym XF86AudioMute $audioMute
 bindsym XF86AudioLowerVolume $audioLowerVolume
+bindsym $switch+s $audioLowerVolume
 bindsym XF86AudioRaiseVolume $audioRaiseVolume
+bindsym $switch+d $audioRaiseVolume
 bindsym XF86AudioNext $audioNext
+bindsym $switch+e $audioNext
 bindsym XF86AudioPrev $audioPrev
+bindsym $switch+q $audioPrev
+bindsym XF86AudioPlay $audioPlay
+bindsym $switch+w $audioPlay
 bindsym XF86Eject exec --no-startup-id eject
 
 # ... with arrow keys (for keyboards without media keys)
@@ -235,10 +282,10 @@ bindsym $mod+t exec --no-startup-id pomodoro
 ###############################################################################
 
 smart_gaps on
-gaps inner 10
+gaps inner 0
 gaps outer 0
-workspace 1 gaps inner 0
-workspace 1 gaps outer 0
+workspace "11" gaps inner 0
+workspace "11" gaps outer 0
 
 set $mode_gaps Gaps: (o) outer, (i) inner
 set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
@@ -281,25 +328,66 @@ mode "$mode_gaps_outer" {
 ##  System bar and color theme
 ###############################################################################
 
+# gruvbox colors
+set $bg0 #282828
+set $bg0_h #1d2021
+set $bg1 #3c3836
+set $red #cc241d
+set $green_bright #b8bb26
+set $green #98971a
+set $green_faded #79740e
+set $yellow #d79921
+set $blue #458588
+set $purple #b16286
+set $aqua #689d68
+set $gray_7 #a89984
+set $gray_8 #928374
+
+# greypaper
+set $c_tx "#FFFFEA"
+set $c_fg "#216609"
+set $c_bg "#000000"
+set $c_un "#BFBCAF"
+set $c_ur "#CC3E28"
+
 bar {
-    font pango:Fira Mono 12
-    position bottom
+    font pango:IBM Plex Mono 14
+    position top
 #    status_command i3blocks
     status_command i3status
-#    mode hide
+    mode hide
     modifier $barMod
 
     colors {
 #        background #000508
+
         background #1D2027
         statusline #839496
         separator #073642
 
         # color class      border  backgr. text
-        focused_workspace  #002b36 #002b36 #E3FDFD
-        active_workspace   #002b36 #002b36 #2aa198
-        inactive_workspace #000508 #000508 #839496
-        urgent_workspace   #800517 #800517 #cb4b16
+        #focused_workspace  #002b36 #002b36 #E3FDFD
+        #active_workspace   #002b36 #002b36 #2aa198
+        #inactive_workspace #000508 #000508 #839496
+        #urgent_workspace   #800517 #800517 #cb4b16
+
+        # gruvbox colors
+        #focused_workspace    $green $green $bg0_h
+        #inactive_workspace   $bg0_h $bg0_h $gray_7
+        #active_workspace     $bg0_h $bg0_h $gray_7
+        #urgent_workspace     $red $red $bg0
+
+        # paper colors
+        #focused_workspace    #000000 #F2EEDE #000000
+        #inactive_workspace   #000000 #000000 #F2EEDE
+        #active_workspace     #000000 #BFBCAF #000000
+        #urgent_workspace     #CC3E28 #CC3E28 #000000
+
+        # greypaper
+        focused_workspace    $c_fg $c_fg $c_tx
+        inactive_workspace   $c_bg $c_bg $c_tx
+        active_workspace     $c_bg $c_bg $c_fg
+        urgent_workspace     $c_ur $c_ur $c_bg
     }
 }
 
@@ -312,10 +400,33 @@ bar {
 #client.focused_inactive #181818 #181818 #86c1b9 #2aa198
 #client.unfocused        #181818 #181818 #545454 #839496
 
-client.focused          #002b36 #002b36 #2aa198 #E3FDFD #002b36
-client.focused_inactive #002b36 #002b36 #2aa198 #2aa198 #002b36
-client.unfocused        #1d2021 #1d2021 #545454 #839496 #1d2021
+# old gruvbox
+#client.focused          #002b36 #002b36 #2aa198 #E3FDFD #002b36
+#client.focused_inactive #002b36 #002b36 #2aa198 #2aa198 #002b36
+#client.unfocused        #1d2021 #1d2021 #545454 #839496 #1d2021
 
+#client.focused          $blue $blue $bg0_h $purple $bg0_h
+#client.focused_inactive $bg0_h $bg0_h $yellow $purple $bg0_h
+#client.unfocused        $bg0_h $bg0_h $yellow $purple $bg0_h
+#client.urgent           $red $red $white $red $red
+
+# gruvbox colors
+#client.focused          $green $green_bright $bg0_h $purple $bg0_h
+#client.focused_inactive $green_faded $green_faded $bg0_h $purple $bg0_h
+#client.unfocused        $bg0 $bg1 $gray_7 $purple $bg0_h
+#client.urgent           $red $red $white $red $red
+
+# paper colors
+#client.focused          #F2EEDE #F2EEDE #000000 #000000 #000000
+#client.focused_inactive #BFBCAF #BFBCAF #000000 #000000 #000000
+#client.unfocused        #000000 #000000 #F2EEDE #F2EEDE #F2EEDE
+#client.urgent           #CC3E28 #CC3E28 #000000 #000000 #000000
+
+# greypaper
+client.focused          $c_fg $c_fg $c_tx $c_bg $c_fg
+client.focused_inactive $c_un $c_un $c_bg $c_fg $c_un
+client.unfocused        $c_bg $c_bg $c_tx $c_fg $c_bg
+client.urgent           $c_ur $c_ur $c_tx $c_bg $c_ur
 
 ###############################################################################
 ##  Startup apps

@@ -13,7 +13,6 @@ let &t_ut=''
 set clipboard=unnamedplus
 
 set scrolloff=5
-set cursorline
 
 set copyindent
 set expandtab
@@ -32,14 +31,16 @@ set smartcase
 set splitbelow
 set splitright
 
-set foldmethod=indent
-set foldlevelstart=99
+"set foldmethod=marker
+"set foldlevelstart=99
+
+set modeline
 
  " If you prefer the Omni-Completion tip window to close when a selection is
  " made, these lines close it on movement in insert mode or when leaving
  " insert mode
-autocmd CursorMovedI * if pumvisible() == 0|silent! pclose|endif
-autocmd InsertLeave * if pumvisible() == 0|silent! pclose|endif
+"autocmd CursorMovedI * if pumvisible() == 0|silent! pclose|endif
+"autocmd InsertLeave * if pumvisible() == 0|silent! pclose|endif
 
 " Mark similar words
 "nmap <F12> :exe printf('match IncSearch /\V\<%s\>/', escape(expand('<cword>'), '/\'))<CR>
@@ -54,12 +55,19 @@ autocmd InsertLeave * if pumvisible() == 0|silent! pclose|endif
 inoremap jj <ESC>
 
 let mapleader="\<Space>"
+map <leader>b :Buffers<CR>
+map <leader>t :Tags<CR>
 map <leader>r :!ranger<CR>
 map <leader>n :NERDTreeToggle<CR>
-map <leader>t :TlistToggle<CR>
-map <leader>w :w<CR>:SyntasticCheck<CR>
+"map <leader>t :TlistToggle<CR>
+map <leader>w :w<CR>
+    ":SyntasticCheck<CR>
 map <leader>f :FZF<CR>
+map <leader>l :BLines<CR>
+map <leader>L :Lines<CR>
 map <leader>s :SyntasticCheck<CR>
+map <leader>o :LF<cr>
+
 nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
@@ -92,6 +100,19 @@ nmap <leader>6 6gt
 nmap <leader>7 7gt
 nmap <leader>8 8gt
 nmap <leader>9 9gt
+
+" ============================================================================
+" netrw
+" ============================================================================
+
+nnoremap <leader>e :Lexplore<cr>
+let g:netrw_banner    = 0
+let g:netrw_preview   = 1
+let g:netrw_alto      = 0
+let g:netrw_altv      = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_winsize   = 25
 
 " ============================================================================
 " airline
@@ -154,9 +175,9 @@ let g:ctrlp_prompt_mappings = {
 " syntastic
 " ============================================================================
 
-set statusline+=%#warningmsg#
+"set statusline+=%#warningmsg#
 "set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -214,6 +235,14 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 " Use markdown syntax on *.md files
 au BufRead,BufNewFile *.md set filetype=markdown
 
+let g:ale_linters = {'python': ['mypy']}
+let g:ale_fixers = {'python': ['black']}
+let g:ale_fix_on_save = 1
+
+let g:ale_lint_on_text_changed = 0
+let g:ale_virtualenv_dir_names = []
+let b:ale_python_mypy_use_global = 1
+
 " ============================================================================
 " old settings, for vim
 " ============================================================================
@@ -255,6 +284,7 @@ if !has('nvim')
 
     silent execute '!mkdir -p ~/.vim/.backup'
     silent execute '!mkdir -p ~/.vim/.swap'
+    silent execute '!mkdir -p ~/.vim/.undo'
 
 endif
 
@@ -270,11 +300,13 @@ call g:plug#begin('~/.local/share/nvim/plugged')
 " Color schemes
 "Plug 'chriskempson/base16-vim'
 Plug 'morhetz/gruvbox'
+Plug 'https://gitlab.com/yorickpeterse/vim-paper.git'
+Plug 'NLKNguyen/papercolor-theme'
 
 ""Plug 'nathanaelkane/vim-indent-guides' " A Vim plugin for visually displaying indent levels in code
 Plug 'junegunn/vim-easy-align' " A Vim alignment plugin
-Plug 'edsono/vim-matchit' " Configure % to match more than just single characters.
-Plug 'itchyny/lightline.vim'
+"Plug 'edsono/vim-matchit' " Configure % to match more than just single characters.
+"Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
 "
 ""Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } " A tree explorer plugin for vim.
@@ -285,24 +317,27 @@ Plug 'vim-scripts/Ranger.vim'
 ""Plug 'ctrlpvim/ctrlp.vim' " Fuzzy file, buffer, mru, tag, etc finder
 "Plug 'mileszs/ack.vim' " Vim plugin for the Perl module / CLI script 'ack'
 Plug 'junegunn/fzf', { 'on': 'FZF', 'dir': '~/.fzf', 'do': './install --all' } " A command-line fuzzy finder written in Go
+Plug 'junegunn/fzf.vim' " fzf <3 vim
 ""Plug 'vim-ctrlspace/vim-ctrlspace' " Vim Space Controller
 "
 ""Plug 'joonty/vdebug' " Multi-language DBGP debugger client for Vim
-Plug 'scrooloose/syntastic', { 'on': 'SyntasticCheck' } " Syntax checking hacks for vim
+"Plug 'scrooloose/syntastic', { 'on': 'SyntasticCheck' } " Syntax checking hacks for vim
+Plug 'dense-analysis/ale'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' } " Interactive command execution in Vim
-Plug 'idanarye/vim-vebugger' " Interactive shell debugger
+Plug 'davidhalter/jedi-vim' " Autocompletion, static analysis and refactoring library for python
+"Plug 'idanarye/vim-vebugger' " Interactive shell debugger
 "
 "Plug 'terryma/vim-multiple-cursors'
-Plug 'roman/golden-ratio'
+"Plug 'roman/golden-ratio'
 ""Plug 'elmcast/elm-vim'
 "
-Plug 'saltstack/salt-vim'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'mdempsky/gocode', { 'rtp': 'vim', 'do': '~/.config/nvim/plugins/gocode/vim/symlink.sh' }
+"Plug 'saltstack/salt-vim'
+"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+"Plug 'mdempsky/gocode', { 'rtp': 'vim', 'do': '~/.config/nvim/plugins/gocode/vim/symlink.sh' }
 
-Plug 'junegunn/goyo.vim'
+"Plug 'junegunn/goyo.vim'
 
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' } ", { 'on': [] }
+"Plug 'Valloric/YouCompleteMe', { 'do': './install.py' } ", { 'on': [] }
 call plug#end()
 
 " https://github.com/junegunn/vim-plug/wiki/tips#loading-plugins-manually
@@ -318,9 +353,12 @@ augroup END
 
 set termguicolors
 
+let python_highlight_all=1
+
 "let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-"set background=light
-set background=dark
+set background=light
+"set background=dark
+"set cursorline
 
 "let g:solarized_visibility="low"
 "let g:solarized_termcolors=256
@@ -331,16 +369,36 @@ set background=dark
 "let base16colorspace=256
 "colorscheme base16-default
 
-let g:gruvbox_contrast_dark="hard"
+let g:gruvbox_contrast_dark="medium"
 let g:gruvbox_contrast_light="soft"
 let g:gruvbox_sign_column="bg0"
 let g:gruvbox_invert_tabline=0
 "let g:gruvbox_vert_split="bg0"
-colorscheme gruvbox
+"colorscheme gruvbox
 
-set list
+"colorscheme greypaper
+"hi CursorLine guibg=NONE
+"hi CursorLineNr guibg=NONE
+"hi VertSplit term=NONE cterm=NONE guibg=NONE guifg=#333333
+"hi CursorLine cterm=none
+"hi CursorLineNr cterm=none
+"hi LineNr term=none cterm=none guibg=#f7f3e3 guifg=#777777
+"hi VertSplit term=none cterm=none guibg=#f7f3e3 guifg=#f7f3e3
+
+let g:PaperColor_Theme_Options = {
+  \   'theme': {
+  \     'default.light': {
+  \       'override' : {
+  \         'color00' : ['#F2EEDE', '']
+  \       }
+  \     }
+  \   }
+  \ }
+"colorscheme PaperColor
+
+"set list
 "set listchars=tab:▸\ ,trail:⋅,nbsp:⋅,eol:¬
-set listchars=tab:▸\ ,trail:·,nbsp:·,eol:¬
+"set listchars=tab:▸\ ,trail:·,nbsp:·,eol:¬
 "autocmd InsertEnter * set list
 "autocmd InsertLeave * set nolist
 
@@ -365,6 +423,7 @@ command! -range=% FixWhitespace call <SID>FixWhitespace(<line1>,<line2>)
 
 " Use markdown syntax on *.md files
 au BufRead,BufNewFile *.md set filetype=markdown
+" au BufEnter *.md setl fo=awtq
 
 " Spell checking
 autocmd FileType markdown setlocal spell spelllang=en_us
@@ -382,3 +441,31 @@ autocmd FileType go setlocal noexpandtab nosr sts=0 shiftwidth=4 tabstop=4
 " ============================================================================
 
 autocmd BufNewFile,BufRead ~/workspace/study/INF102/* set noexpandtab softtabstop=0
+"autocmd BufNewFile,BufRead ~/jots/* setlocal foldlevelstart=0 foldmethod=marker
+
+" ============================================================================
+" Select file with lf
+" ============================================================================
+
+function! LF()
+    let temp = tempname()
+    exec 'silent !lf -selection-path=' . shellescape(temp)
+    if !filereadable(temp)
+        redraw!
+        return
+    endif
+    let names = readfile(temp)
+    if empty(names)
+        redraw!
+        return
+    endif
+    exec 'edit ' . fnameescape(names[0])
+    for name in names[1:]
+        exec 'argadd ' . fnameescape(name)
+    endfor
+    redraw!
+endfunction
+command! -bar LF call LF()
+
+
+

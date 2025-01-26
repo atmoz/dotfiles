@@ -7,21 +7,24 @@
 
 #####################################################################
 
-alias vim=nvim
 alias ls='ls --color=auto'
 alias r=ranger
 alias kicat="kitty +kitten icat"
 alias kdiff="kitty +kitten diff"
 
+alias py=python3
+
+alias termbin="nc termbin.com 9999"
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 export TERMINAL="kitty"
-export EDITOR="nvim"
+export EDITOR="vim"
 
 export LC_ALL=en_US.UTF-8
 export LANG="$LC_ALL"
 
-export PATH=$PATH:~/bin
+export PATH=$PATH:~/bin:~/.local/bin
 
 export GOPATH=~/go
 export PATH=$PATH:$GOPATH/bin
@@ -73,9 +76,16 @@ BLUE='\[\033[1;34m\]'
 WHITE='\[\033[1;37m\]'
 RESET='\[\033[0m\]'
 
+lf_indicator="${LF_LEVEL:+"lf($LF_LEVEL)"}"
 ps1pc_start="\n"
 ps1pc_end="$BLUE\w$WHITE"'$(if [ ! \j == 0 ]; then echo " (\j)"; fi) \$'"$RESET "
-PROMPT_COMMAND='__git_ps1 "$ps1pc_start" "$ps1pc_end" "%s\n" && __terminalTitle'
+
+if [ -f /run/.containerenv ]; then
+    container_name="$(sed -nE 's/name="(.*)"/\1/p' /run/.containerenv)"
+    PROMPT_COMMAND='__git_ps1 "${ps1pc_start}[$container_name] " "$lf_indicator \n$ps1pc_end" "%s " && __terminalTitle'
+else
+    PROMPT_COMMAND='__git_ps1 "$ps1pc_start" "$lf_indicator \n$ps1pc_end" "%s " && __terminalTitle'
+fi
 
 #####################################################################
 ## Helper functions
@@ -93,6 +103,30 @@ function dup() {
     ($TERMINAL &) 2> /dev/null
 }
 
+function cdtemp() {
+    cd "$(mktemp -d)"
+}
+
+# https://github.com/gokcehan/lf/blob/7d47436a352eb7f7d61303045ed79ed8989c6270/etc/lfcd.sh
+lfcd () {
+    tmp="$(mktemp)"
+    lf -last-dir-path="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp"
+        if [ -d "$dir" ]; then
+            if [ "$dir" != "$(pwd)" ]; then
+                cd "$dir"
+            fi
+        fi
+    fi
+}
+
+function cdgit() {
+    cd "$(~/bin/fzfgit "$*")" || exit 1
+}
+
+
 #####################################################################
 ## Version controlled configurations
 #####################################################################
@@ -107,3 +141,14 @@ if [ "$PWD" == "$HOME" ]; then
 fi
 
 source <(kitty + complete setup bash)
+
+# BEGIN_KITTY_SHELL_INTEGRATION
+if test -n "$KITTY_INSTALLATION_DIR" -a -e "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; then source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; fi
+# END_KITTY_SHELL_INTEGRATION
+
+# Print color palette
+for i in {0..15}; do
+    echo -en "\033[48;5;${i}m $(printf "%2s" "$i") \033[0m";
+    [ "$i" -eq 7 ] && echo
+done
+echo; echo
